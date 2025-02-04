@@ -3,14 +3,27 @@ title: "EDA-challenge"
 format: html
 ---
 
-## Part 1
+## Loading Data and Setting up Workspace
 
-Data loaded as tabular data structure named d
+For this exercise we need three libraries to be loaded
+```{r}
+library(readr) #reads in files
+library(ggplot2) #for plots
+library(dplyr) #for data manipulation
+```
+Load the “data-wrangling.csv” dataset from the URL in the excercise 3 page as a tabular data structure named d and look at the variables it contains, which are a subset of those in the Kamilar and Cooper dataset on primate ecology, behavior, and life history that we have used previously.
+
+Store the URL as a variable f
+```{r}
+f <- "https://raw.githubusercontent.com/difiore/ada-datasets/main/data-wrangling.csv"
+```
+Load the data (f) as a variable d
 ```{r}
 d <- read_csv(f, col_names = TRUE)
 ```
+## Exercise - Creating Variables and Columns in Data
 
-Create a new variable named BSD (body size dimorphism) which is the ration of average male to female body mass
+1. Create a new variable named BSD (body size dimorphism) which is the ratio of average male to female body mass.
 $$
 Body Size Dimophism (BSD) = Average Male Body Mass/Average Female Body Mass
 $$
@@ -19,7 +32,7 @@ $$
 d$BSD <- d$Body_mass_male_mean/d$Body_mass_female_mean
 ```
 
-Create a new variable named sex_ratio, which is the ratio of the number of adult females to adult males
+2. Create a new variable named sex_ratio, which is the ratio of the number of adult females to adult males in a typical group.
 $$
 Sex Ratio = adult females/adult males
 $$
@@ -28,7 +41,7 @@ $$
 d$sex_ratio <- d$AdultFemale/d$AdultMales
 ```
 
-Create a new variable named DI (for "defensibility index"), which is the ratio of day range length to the diameter of the home range.
+3. Create a new variable named DI (for "defensibility index"), which is the ratio of day range length to the diameter of the home range.
 
 $$
 Diameter of home range = 2 * sqrt(HomeRange/pi)
@@ -45,12 +58,11 @@ $$
 d$DI <- d$DayLength_km/d$diameter
 ```
 
-4. Plot the relationship between day range length (y axis) and time spent moving (x axis), for these primate species overall and by family (i.e., a different plot for each family, e.g., by using faceting: + facet_wrap()).
+## Exercise - Plotting Data
 
-```{r}
-library(ggplot2)
-library(dplyr)
-```
+4. Plot the relationship between day range length (y axis) and time spent moving (x axis), for these primate species overall and by family (i.e., a different plot for each family, e.g., by using faceting: + facet_wrap()). Do species that spend more time moving travel farther overall? How about within any particular primate family? Should you transform either of these variables?
+
+Yes, there is a positive correlation between movement and the range of length traveled. It seems particulary stronger between some like Atelidae, Cebidae, and Cercopithecidae. However other families show no correlation or a very weak one. I feel like the log transformation was not that helpful. i noticed that some families had values for Day Length but not for move, I am wondering if this has impact on what we are saying.
 
 ### Overall Relationship between day range length and time spent moving
 ```{r}
@@ -64,21 +76,22 @@ p <- p + geom_point(na.rm = TRUE)
 
 #modify legend
 p <- p + theme(legend.position = "bottom", legend.title = element_blank())
+#linear regression by family, noted out not really useful
+#p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
 # and, finally, we plot the object
-p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
 p 
 ```
 
-##Family Relationsip between day range length and time spent moving
+### Family Relationship between day range length and time spent moving
 ```{r}
 p <- p + facet_wrap(~Family, ncol = 5)
 p <- p + theme(legend.position = "none")
 p
 ```
 
-Do species that spend more time moving travel farther overall? How about within any particular primate family? Should you transform either of these variables?
-Yes, there is a positive correlation between movement and the range of length traveled. It seems particulary stronger between some like Atelidae, Cebidae, and Cercopithecidae. However other families show no correlation or a very weak one. I feel like the log transformation was not that helpful. i noticed that some families had values for Day Length but not for move, I am wondering if this has impact on what we are saying.
+5. Plot the relationship between day range length (y axis) and group size (x axis), overall and by family. Do species that live in larger groups travel farther overall? How about within any particular primate family? Should you transform either of these variable?
 
+### Overall Relationship between day range length and group size
 ```{r}
 p <- ggplot(data = d, aes(x = log(MeanGroupSize), y = log(DayLength_km), color = factor(Family))) #plot with points colored by family
 
@@ -90,15 +103,67 @@ p <- p + geom_point(na.rm = TRUE)
 
 #modify legend
 p <- p + theme(legend.position = "bottom", legend.title = element_blank())
+#linear regression by family, noted out not really useful
+#p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
 # and, finally, we plot the object
-p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
 p 
 ```
-
+### Family Relationship between day range length and group size
 ```{r}
 p <- p + facet_wrap(~Family, ncol = 5)
 p <- p + theme(legend.position = "none")
 p
 ```
 
-Do species that live in larger groups travel farther overall? How about within any particular primate family? Should you transform either of these variables?
+6. Plot the relationship between canine size dimorphism (y axis) and body size dimorphism (x axis) overall and by family. Do taxa with greater size dimorphism also show greater canine dimorphism?
+
+### Overall Relationship between Canine Size Dimorphism and Body Size Dimorphism
+```{r}
+p <- ggplot(data = d, aes(x = log(BSD), y = log(Canine_Dimorphism), color = factor(Family))) #plot with points colored by family
+
+#modify axis labels
+p <- p + xlab("Body Size Dimorphism") + ylab("Canine Size Dimorphism")
+
+#create scatterplot
+p <- p + geom_point(na.rm = TRUE)
+
+#modify legend
+p <- p + theme(legend.position = "bottom", legend.title = element_blank())
+#linear regression by family, noted out not really useful
+#p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
+# and, finally, we plot the object
+p 
+```
+### Family Relationship between Canine Size Dimorphism and Body Size Dimorphism
+```{r}
+p <- p + facet_wrap(~Family, ncol = 5)
+p <- p + theme(legend.position = "none")
+p
+```
+7. Create a new variable named diet_strategy that is “frugivore” if fruits make up >50% of the diet, “folivore” if leaves make up >50% of the diet, and “omnivore” if diet data are available, but neither of these is true (i.e., these values are not NA). Then, do boxplots of group size for species with different dietary strategies, omitting the category NA from your plot. Do frugivores live in larger groups than folivores?
+
+```{r}
+?mutate
+```
+
+```R
+mutate(d, diet_strategy = 
+        ifelse(Fruit >= 50, "frugivore"), 
+        ifelse(Leaves >= 50, "folivore"), 
+        ifelse(Fruit(na.rm = TRUE) & Leaves(na.rm = TRUE)))
+```
+```{r}
+mutate(d, diet_strategy = ifelse(Fruit >= 50, "frugivore",
+                          ifelse(Leaves >= 50, "folivore",
+                          ifelse(!is.na(Fruit) & !is.na(Leaves), "omnivore", NA))))
+```
+```{r}
+mutate(d, diet_strategy = ifelse(Fruit >= 50, "frugivore",
+                          ifelse(Leaves >= 50, "folivore",
+                          ifelse(Fruit < 50 & Leaves < 50, "omnivore", NA))))
+```
+
+BOXPLOTS OF GROUP SIZE FOR SPECIES WITH DIFFERENT DEITARY STARTEGIES (FRUGIVORE, OMNIVORE, FOLIVORE), DO NOT INCLUDE NA = X, Y = GROUP SIZE
+
+
+
