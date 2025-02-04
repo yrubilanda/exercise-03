@@ -1,0 +1,104 @@
+---
+title: "EDA-challenge"
+format: html
+---
+
+## Part 1
+
+Data loaded as tabular data structure named d
+```{r}
+d <- read_csv(f, col_names = TRUE)
+```
+
+Create a new variable named BSD (body size dimorphism) which is the ration of average male to female body mass
+$$
+Body Size Dimophism (BSD) = Average Male Body Mass/Average Female Body Mass
+$$
+
+```{r}
+d$BSD <- d$Body_mass_male_mean/d$Body_mass_female_mean
+```
+
+Create a new variable named sex_ratio, which is the ratio of the number of adult females to adult males
+$$
+Sex Ratio = adult females/adult males
+$$
+
+```{r}
+d$sex_ratio <- d$AdultFemale/d$AdultMales
+```
+
+Create a new variable named DI (for "defensibility index"), which is the ratio of day range length to the diameter of the home range.
+
+$$
+Diameter of home range = 2 * sqrt(HomeRange/pi)
+$$
+```{r}
+d$diameter <- (2 * sqrt(d$HomeRange_km2/pi))
+```
+
+$$
+Defensibility Index (DI) = day range length/diameter of home range
+$$
+
+```{r}
+d$DI <- d$DayLength_km/d$diameter
+```
+
+4. Plot the relationship between day range length (y axis) and time spent moving (x axis), for these primate species overall and by family (i.e., a different plot for each family, e.g., by using faceting: + facet_wrap()).
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+### Overall Relationship between day range length and time spent moving
+```{r}
+p <- ggplot(data = d, aes(x = log(Move), y = log(DayLength_km), color = factor(Family))) #plot with points colored by family
+
+#modify axis labels
+p <- p + xlab("log(Move)") + ylab("log(Day Length (km))")
+
+#create scatterplot
+p <- p + geom_point(na.rm = TRUE)
+
+#modify legend
+p <- p + theme(legend.position = "bottom", legend.title = element_blank())
+# and, finally, we plot the object
+p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
+p 
+```
+
+##Family Relationsip between day range length and time spent moving
+```{r}
+p <- p + facet_wrap(~Family, ncol = 5)
+p <- p + theme(legend.position = "none")
+p
+```
+
+Do species that spend more time moving travel farther overall? How about within any particular primate family? Should you transform either of these variables?
+Yes, there is a positive correlation between movement and the range of length traveled. It seems particulary stronger between some like Atelidae, Cebidae, and Cercopithecidae. However other families show no correlation or a very weak one. I feel like the log transformation was not that helpful. i noticed that some families had values for Day Length but not for move, I am wondering if this has impact on what we are saying.
+
+```{r}
+p <- ggplot(data = d, aes(x = log(MeanGroupSize), y = log(DayLength_km), color = factor(Family))) #plot with points colored by family
+
+#modify axis labels
+p <- p + xlab("log(Mean Group Size)") + ylab("log(Day Length (km))")
+
+#create scatterplot
+p <- p + geom_point(na.rm = TRUE)
+
+#modify legend
+p <- p + theme(legend.position = "bottom", legend.title = element_blank())
+# and, finally, we plot the object
+p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
+p 
+```
+
+```{r}
+p <- p + facet_wrap(~Family, ncol = 5)
+p <- p + theme(legend.position = "none")
+p
+```
+
+Do species that live in larger groups travel farther overall? How about within any particular primate family? Should you transform either of these variables?
