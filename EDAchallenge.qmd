@@ -10,6 +10,7 @@ For this exercise we need three libraries to be loaded
 library(readr) #reads in files
 library(ggplot2) #for plots
 library(dplyr) #for data manipulation
+library(tidyr)
 ```
 Load the “data-wrangling.csv” dataset from the URL in the excercise 3 page as a tabular data structure named d and look at the variables it contains, which are a subset of those in the Kamilar and Cooper dataset on primate ecology, behavior, and life history that we have used previously.
 
@@ -77,7 +78,23 @@ p <- p + geom_point(na.rm = TRUE)
 #modify legend
 p <- p + theme(legend.position = "bottom", legend.title = element_blank())
 #linear regression by family, noted out not really useful
-#p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
+p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
+# and, finally, we plot the object
+p 
+```
+```{r}
+p <- ggplot(data = d, aes(x = log(Move), y = log(DayLength_km))) #plot with points colored by family
+
+#modify axis labels
+p <- p + xlab("log(Move)") + ylab("log(Day Length (km))")
+
+#create scatterplot
+p <- p + geom_point(na.rm = TRUE)
+
+#modify legend
+p <- p + theme(legend.position = "bottom", legend.title = element_blank())
+#linear regression by family, noted out not really useful
+p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
 # and, finally, we plot the object
 p 
 ```
@@ -158,12 +175,55 @@ mutate(d, diet_strategy = ifelse(Fruit >= 50, "frugivore",
                           ifelse(!is.na(Fruit) & !is.na(Leaves), "omnivore", NA))))
 ```
 ```{r}
-mutate(d, diet_strategy = ifelse(Fruit >= 50, "frugivore",
+d <- mutate(d, diet_strategy = ifelse(Fruit >= 50, "frugivore",
                           ifelse(Leaves >= 50, "folivore",
                           ifelse(Fruit < 50 & Leaves < 50, "omnivore", NA))))
 ```
 
-BOXPLOTS OF GROUP SIZE FOR SPECIES WITH DIFFERENT DEITARY STARTEGIES (FRUGIVORE, OMNIVORE, FOLIVORE), DO NOT INCLUDE NA = X, Y = GROUP SIZE
+## Group Size for different dietary strategies
+```{r}
+boxplot(log(d$MeanGroupSize) ~d$diet_strategy, na.rm = TRUE)
+```
+Add a variable, Binomial to the data frame d, which is a concatenation of the Genus and Species variables…
+```{r}
+d <- d %>%
+  unite(Binomial, Genus:Species, na.rm = TRUE, remove = FALSE)
+```
 
+Trim the data frame to only include the variables Binomial, Family, Brain_size_species_mean, and Body_mass_male_mean…
+```{r}
+d2 <- data.frame(
+  Binomial = d$Binomial,
+  Family = d$Family,
+  Brain_size_species_mean = d$Brain_Size_Species_Mean,
+  Body_mass_male_mean = d$Body_mass_male_mean
+)
+```
 
+Group these variables by Family…
+```{r}
+?group_by
 
+d2 <- d2 %>% group_by(Family)
+```
+
+Calculate the average value for Brain_Size_Species_Mean and Body_mass_male_mean per Family (remember, you may need to specify na.rm = TRUE)…
+```{r}
+?aggregate
+s <- summarize(d2, n_cases = n(),  
+               mean(Body_mass_male_mean, Brain_size_species_mean) ~ Family))
+```
+
+```{r}
+mean_brainSize <- aggregate(d2$Brain_size_species_mean ~ d2$Family, FUN = "mean", na.rm = TRUE)
+```
+
+```{r}
+d3 <- data.frame(
+      mean_bodyMass = mean_bodyMass,
+      mean_brainSize = mean_brainSize)
+```
+
+```{r}
+d3
+```
