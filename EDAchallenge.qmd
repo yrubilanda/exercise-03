@@ -1,52 +1,67 @@
 ---
 title: "EDA-challenge"
 format: html
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Loading Data and Setting up Workspace
 
 For this exercise we need three libraries to be loaded
+
 ```{r}
 library(readr) #reads in files
 library(ggplot2) #for plots
 library(dplyr) #for data manipulation
 library(tidyr)
 ```
-Load the “data-wrangling.csv” dataset from the URL in the excercise 3 page as a tabular data structure named d and look at the variables it contains, which are a subset of those in the Kamilar and Cooper dataset on primate ecology, behavior, and life history that we have used previously.
+
+Load the “data-wrangling.csv” dataset from the URL in the excercise 3
+page as a tabular data structure named d and look at the variables it
+contains, which are a subset of those in the Kamilar and Cooper dataset
+on primate ecology, behavior, and life history that we have used
+previously.
 
 Store the URL as a variable f
+
 ```{r}
 f <- "https://raw.githubusercontent.com/difiore/ada-datasets/main/data-wrangling.csv"
 ```
+
 Load the data (f) as a variable d
+
 ```{r}
 d <- read_csv(f, col_names = TRUE)
 ```
+
 ## Exercise - Creating Variables and Columns in Data
 
-1. Create a new variable named BSD (body size dimorphism) which is the ratio of average male to female body mass.
-$$
-Body Size Dimophism (BSD) = Average Male Body Mass/Average Female Body Mass
-$$
+1.  Create a new variable named BSD (body size dimorphism) which is the
+    ratio of average male to female body mass. $$
+    Body Size Dimophism (BSD) = Average Male Body Mass/Average Female Body Mass
+    $$
 
 ```{r}
 d$BSD <- d$Body_mass_male_mean/d$Body_mass_female_mean
 ```
 
-2. Create a new variable named sex_ratio, which is the ratio of the number of adult females to adult males in a typical group.
-$$
-Sex Ratio = adult females/adult males
-$$
+2.  Create a new variable named sex_ratio, which is the ratio of the
+    number of adult females to adult males in a typical group. $$
+    Sex Ratio = adult females/adult males
+    $$
 
 ```{r}
 d$sex_ratio <- d$AdultFemale/d$AdultMales
 ```
 
-3. Create a new variable named DI (for "defensibility index"), which is the ratio of day range length to the diameter of the home range.
+3.  Create a new variable named DI (for "defensibility index"), which is
+    the ratio of day range length to the diameter of the home range.
 
 $$
 Diameter of home range = 2 * sqrt(HomeRange/pi)
 $$
+
 ```{r}
 d$diameter <- (2 * sqrt(d$HomeRange_km2/pi))
 ```
@@ -61,11 +76,23 @@ d$DI <- d$DayLength_km/d$diameter
 
 ## Exercise - Plotting Data
 
-4. Plot the relationship between day range length (y axis) and time spent moving (x axis), for these primate species overall and by family (i.e., a different plot for each family, e.g., by using faceting: + facet_wrap()). Do species that spend more time moving travel farther overall? How about within any particular primate family? Should you transform either of these variables?
+4.  Plot the relationship between day range length (y axis) and time
+    spent moving (x axis), for these primate species overall and by
+    family (i.e., a different plot for each family, e.g., by using
+    faceting: + facet_wrap()). Do species that spend more time moving
+    travel farther overall? How about within any particular primate
+    family? Should you transform either of these variables?
 
-Yes, there is a positive correlation between movement and the range of length traveled. It seems particulary stronger between some like Atelidae, Cebidae, and Cercopithecidae. However other families show no correlation or a very weak one. I feel like the log transformation was not that helpful. i noticed that some families had values for Day Length but not for move, I am wondering if this has impact on what we are saying.
+Yes, there is a positive correlation between movement and the range of
+length traveled. It seems particulary stronger between some like
+Atelidae, Cebidae, and Cercopithecidae. However other families show no
+correlation or a very weak one. I feel like the log transformation was
+not that helpful. i noticed that some families had values for Day Length
+but not for move, I am wondering if this has impact on what we are
+saying.
 
 ### Overall Relationship between day range length and time spent moving
+
 ```{r}
 p <- ggplot(data = d, aes(x = log(Move), y = log(DayLength_km), color = factor(Family))) #plot with points colored by family
 
@@ -82,6 +109,7 @@ p <- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)
 # and, finally, we plot the object
 p 
 ```
+
 ```{r}
 p <- ggplot(data = d, aes(x = log(Move), y = log(DayLength_km))) #plot with points colored by family
 
@@ -100,15 +128,22 @@ p
 ```
 
 ### Family Relationship between day range length and time spent moving
+
 ```{r}
 p <- p + facet_wrap(~Family, ncol = 5)
 p <- p + theme(legend.position = "none")
 p
 ```
 
-5. Plot the relationship between day range length (y axis) and group size (x axis), overall and by family. Do species that live in larger groups travel farther overall? How about within any particular primate family? Should you transform either of these variable?
+5.  Plot the relationship between day range length (y axis) and group
+    size (x axis), overall and by family. Do species that live in larger
+    groups travel farther overall? How about within any particular
+    primate family? Should you transform either of these variable?
+    
+Yes there is a positive relationship and species that live in larger groups travel farther overall. It seems as though Cebidae, Cercopithecidae, and Pitheciidae have a stronger correlation. I did do a log transformation as it was hard to see.
 
 ### Overall Relationship between day range length and group size
+
 ```{r}
 p <- ggplot(data = d, aes(x = log(MeanGroupSize), y = log(DayLength_km), color = factor(Family))) #plot with points colored by family
 
@@ -125,16 +160,21 @@ p <- p + theme(legend.position = "bottom", legend.title = element_blank())
 # and, finally, we plot the object
 p 
 ```
+
 ### Family Relationship between day range length and group size
+
 ```{r}
 p <- p + facet_wrap(~Family, ncol = 5)
 p <- p + theme(legend.position = "none")
 p
 ```
 
-6. Plot the relationship between canine size dimorphism (y axis) and body size dimorphism (x axis) overall and by family. Do taxa with greater size dimorphism also show greater canine dimorphism?
-
+6.  Plot the relationship between canine size dimorphism (y axis) and
+    body size dimorphism (x axis) overall and by family. Do taxa with
+    greater size dimorphism also show greater canine dimorphism?
+Again there is a positive correlation between canine size and bsd, it does seem that those with greater body size dimorphism (specifically Cercopithecidae) also show greater canine size dimorphism
 ### Overall Relationship between Canine Size Dimorphism and Body Size Dimorphism
+
 ```{r}
 p <- ggplot(data = d, aes(x = log(BSD), y = log(Canine_Dimorphism), color = factor(Family))) #plot with points colored by family
 
@@ -151,29 +191,40 @@ p <- p + theme(legend.position = "bottom", legend.title = element_blank())
 # and, finally, we plot the object
 p 
 ```
+
 ### Family Relationship between Canine Size Dimorphism and Body Size Dimorphism
+
 ```{r}
 p <- p + facet_wrap(~Family, ncol = 5)
 p <- p + theme(legend.position = "none")
 p
 ```
-7. Create a new variable named diet_strategy that is “frugivore” if fruits make up >50% of the diet, “folivore” if leaves make up >50% of the diet, and “omnivore” if diet data are available, but neither of these is true (i.e., these values are not NA). Then, do boxplots of group size for species with different dietary strategies, omitting the category NA from your plot. Do frugivores live in larger groups than folivores?
 
-```{r}
+7.  Create a new variable named diet_strategy that is “frugivore” if
+    fruits make up \>50% of the diet, “folivore” if leaves make up \>50%
+    of the diet, and “omnivore” if diet data are available, but neither
+    of these is true (i.e., these values are not NA). Then, do boxplots
+    of group size for species with different dietary strategies,
+    omitting the category NA from your plot. Do frugivores live in
+    larger groups than folivores?
+
+```R
 ?mutate
 ```
 
-```R
+``` r
 mutate(d, diet_strategy = 
         ifelse(Fruit >= 50, "frugivore"), 
         ifelse(Leaves >= 50, "folivore"), 
         ifelse(Fruit(na.rm = TRUE) & Leaves(na.rm = TRUE)))
 ```
+
 ```{r}
 mutate(d, diet_strategy = ifelse(Fruit >= 50, "frugivore",
                           ifelse(Leaves >= 50, "folivore",
                           ifelse(!is.na(Fruit) & !is.na(Leaves), "omnivore", NA))))
 ```
+
 ```{r}
 d <- mutate(d, diet_strategy = ifelse(Fruit >= 50, "frugivore",
                           ifelse(Leaves >= 50, "folivore",
@@ -181,49 +232,34 @@ d <- mutate(d, diet_strategy = ifelse(Fruit >= 50, "frugivore",
 ```
 
 ## Group Size for different dietary strategies
+
 ```{r}
 boxplot(log(d$MeanGroupSize) ~d$diet_strategy, na.rm = TRUE)
 ```
-Add a variable, Binomial to the data frame d, which is a concatenation of the Genus and Species variables…
-```{r}
-d <- d %>%
-  unite(Binomial, Genus:Species, na.rm = TRUE, remove = FALSE)
-```
-
-Trim the data frame to only include the variables Binomial, Family, Brain_size_species_mean, and Body_mass_male_mean…
-```{r}
-d2 <- data.frame(
-  Binomial = d$Binomial,
-  Family = d$Family,
-  Brain_size_species_mean = d$Brain_Size_Species_Mean,
-  Body_mass_male_mean = d$Body_mass_male_mean
-)
-```
-
-Group these variables by Family…
-```{r}
-?group_by
-
-d2 <- d2 %>% group_by(Family)
-```
-
-Calculate the average value for Brain_Size_Species_Mean and Body_mass_male_mean per Family (remember, you may need to specify na.rm = TRUE)…
-```{r}
-?aggregate
-s <- summarize(d2, n_cases = n(),  
-               mean(Body_mass_male_mean, Brain_size_species_mean) ~ Family))
-```
 
 ```{r}
-mean_brainSize <- aggregate(d2$Brain_size_species_mean ~ d2$Family, FUN = "mean", na.rm = TRUE)
+d
 ```
 
-```{r}
-d3 <- data.frame(
-      mean_bodyMass = mean_bodyMass,
-      mean_brainSize = mean_brainSize)
-```
+8.  In one line of code, using {dplyr} verbs and the forward pipe (\|\>
+    or %\>%) operator, do the following:
+
+-   Add a variable, Binomial to the data frame d, which is a concatenation of the Genus and Species variables… 
+-   Trim the data frame to only include the variables Binomial, Family, Brain_size_species_mean, and Body_mass_male_mean… 
+-   Group these variables by Family… 
+-   Calculate the average value for Brain_Size_Species_Mean and Body_mass_male_mean per Family (remember, you may need to specify na.rm = TRUE)… 
+-   Arrange by increasing average brain size… And print the output to the console
 
 ```{r}
-d3
+s <- d |> 
+  mutate(Binomial = paste(Genus, Species, sep = " ")) |>
+  select(Binomial, Family, Brain_Size_Species_Mean, Body_mass_male_mean) |>
+  group_by(Family) |>
+  summarise(avgBS = mean(Brain_Size_Species_Mean, na.rm = TRUE), avgMM = mean(Body_mass_male_mean, na.rm = TRUE)) |>
+  arrange(avgBS)
+
+print(s)
 ```
+
+## Step 2 - quarto to pdf
+No I was not ambitious enough, I was scared I would ruin it all D:

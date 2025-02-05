@@ -146,15 +146,16 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Load the “data-wrangling.csv” dataset from the URL in the excercise 3 page as a tabular data structure named d and look at the variables it contains, which are a subset of those in the Kamilar and Cooper dataset on primate ecology, behavior, and life history that we have used previously.</p>
 <p>Store the URL as a variable f</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/difiore/ada-datasets/main/data-wrangling.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/difiore/ada-datasets/main/data-wrangling.csv"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Load the data (f) as a variable d</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(f, <span class="at">col_names =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(f, <span class="at">col_names =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 213 Columns: 23
 ── Column specification ────────────────────────────────────────────────────────
@@ -175,7 +176,7 @@ Body Size Dimophism (BSD) = Average Male Body Mass/Average Female Body Mass
 \]</span></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>BSD <span class="ot">&lt;-</span> d<span class="sc">$</span>Body_mass_male_mean<span class="sc">/</span>d<span class="sc">$</span>Body_mass_female_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>BSD <span class="ot">&lt;-</span> d<span class="sc">$</span>Body_mass_male_mean<span class="sc">/</span>d<span class="sc">$</span>Body_mass_female_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li>Create a new variable named sex_ratio, which is the ratio of the number of adult females to adult males in a typical group. <span class="math display">\[
@@ -183,7 +184,7 @@ Sex Ratio = adult females/adult males
 \]</span></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>sex_ratio <span class="ot">&lt;-</span> d<span class="sc">$</span>AdultFemale<span class="sc">/</span>d<span class="sc">$</span>AdultMales</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>sex_ratio <span class="ot">&lt;-</span> d<span class="sc">$</span>AdultFemale<span class="sc">/</span>d<span class="sc">$</span>AdultMales</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>Create a new variable named DI (for “defensibility index”), which is the ratio of day range length to the diameter of the home range.</li>
@@ -192,13 +193,13 @@ Sex Ratio = adult females/adult males
 Diameter of home range = 2 * sqrt(HomeRange/pi)
 \]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>diameter <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(d<span class="sc">$</span>HomeRange_km2<span class="sc">/</span>pi))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>diameter <span class="ot">&lt;-</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">sqrt</span>(d<span class="sc">$</span>HomeRange_km2<span class="sc">/</span>pi))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><span class="math display">\[
 Defensibility Index (DI) = day range length/diameter of home range
 \]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>DI <span class="ot">&lt;-</span> d<span class="sc">$</span>DayLength_km<span class="sc">/</span>d<span class="sc">$</span>diameter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>DI <span class="ot">&lt;-</span> d<span class="sc">$</span>DayLength_km<span class="sc">/</span>d<span class="sc">$</span>diameter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise---plotting-data" class="level2">
@@ -210,20 +211,30 @@ Defensibility Index (DI) = day range length/diameter of home range
 <section id="overall-relationship-between-day-range-length-and-time-spent-moving" class="level3">
 <h3 class="anchored" data-anchor-id="overall-relationship-between-day-range-length-and-time-spent-moving">Overall Relationship between day range length and time spent moving</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(Move), <span class="at">y =</span> <span class="fu">log</span>(DayLength_km), <span class="at">color =</span> <span class="fu">factor</span>(Family))) <span class="co">#plot with points colored by family</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#modify axis labels</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"log(Move)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"log(Day Length (km))"</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#create scatterplot</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#modify legend</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#linear regression by family, noted out not really useful</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#p &lt;- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># and, finally, we plot the object</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>p </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(Move), <span class="at">y =</span> <span class="fu">log</span>(DayLength_km), <span class="at">color =</span> <span class="fu">factor</span>(Family))) <span class="co">#plot with points colored by family</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#modify axis labels</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"log(Move)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"log(Day Length (km))"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#create scatterplot</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#modify legend</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#linear regression by family, noted out not really useful</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">fullrange =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># and, finally, we plot the object</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>p </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in qt((1 - level)/2, df): NaNs produced</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+-Inf</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -232,13 +243,24 @@ Defensibility Index (DI) = day range length/diameter of home range
 </div>
 </div>
 </div>
-</section>
-<section id="family-relationship-between-day-range-length-and-time-spent-moving" class="level3">
-<h3 class="anchored" data-anchor-id="family-relationship-between-day-range-length-and-time-spent-moving">Family Relationship between day range length and time spent moving</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Family, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(Move), <span class="at">y =</span> <span class="fu">log</span>(DayLength_km))) <span class="co">#plot with points colored by family</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#modify axis labels</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"log(Move)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"log(Day Length (km))"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#create scatterplot</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#modify legend</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#linear regression by family, noted out not really useful</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">fullrange =</span> <span class="cn">FALSE</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># and, finally, we plot the object</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>p </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -247,27 +269,23 @@ Defensibility Index (DI) = day range length/diameter of home range
 </div>
 </div>
 </div>
-<ol start="5" type="1">
-<li>Plot the relationship between day range length (y axis) and group size (x axis), overall and by family. Do species that live in larger groups travel farther overall? How about within any particular primate family? Should you transform either of these variable?</li>
-</ol>
 </section>
-<section id="overall-relationship-between-day-range-length-and-group-size" class="level3">
-<h3 class="anchored" data-anchor-id="overall-relationship-between-day-range-length-and-group-size">Overall Relationship between day range length and group size</h3>
+<section id="family-relationship-between-day-range-length-and-time-spent-moving" class="level3">
+<h3 class="anchored" data-anchor-id="family-relationship-between-day-range-length-and-time-spent-moving">Family Relationship between day range length and time spent moving</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(MeanGroupSize), <span class="at">y =</span> <span class="fu">log</span>(DayLength_km), <span class="at">color =</span> <span class="fu">factor</span>(Family))) <span class="co">#plot with points colored by family</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#modify axis labels</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"log(Mean Group Size)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"log(Day Length (km))"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#create scatterplot</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#modify legend</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#linear regression by family, noted out not really useful</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#p &lt;- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># and, finally, we plot the object</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>p </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Family, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in qt((1 - level)/2, df): NaNs produced</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+-Inf</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -276,13 +294,28 @@ Defensibility Index (DI) = day range length/diameter of home range
 </div>
 </div>
 </div>
+<ol start="5" type="1">
+<li>Plot the relationship between day range length (y axis) and group size (x axis), overall and by family. Do species that live in larger groups travel farther overall? How about within any particular primate family? Should you transform either of these variable?</li>
+</ol>
+<p>Yes there is a positive relationship and species that live in larger groups travel farther overall. It seems as though Cebidae, Cercopithecidae, and Pitheciidae have a stronger correlation. I did do a log transformation as it was hard to see.</p>
 </section>
-<section id="family-relationship-between-day-range-length-and-group-size" class="level3">
-<h3 class="anchored" data-anchor-id="family-relationship-between-day-range-length-and-group-size">Family Relationship between day range length and group size</h3>
+<section id="overall-relationship-between-day-range-length-and-group-size" class="level3">
+<h3 class="anchored" data-anchor-id="overall-relationship-between-day-range-length-and-group-size">Overall Relationship between day range length and group size</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Family, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(MeanGroupSize), <span class="at">y =</span> <span class="fu">log</span>(DayLength_km), <span class="at">color =</span> <span class="fu">factor</span>(Family))) <span class="co">#plot with points colored by family</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#modify axis labels</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"log(Mean Group Size)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"log(Day Length (km))"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#create scatterplot</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#modify legend</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#linear regression by family, noted out not really useful</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#p &lt;- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># and, finally, we plot the object</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>p </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -291,27 +324,13 @@ Defensibility Index (DI) = day range length/diameter of home range
 </div>
 </div>
 </div>
-<ol start="6" type="1">
-<li>Plot the relationship between canine size dimorphism (y axis) and body size dimorphism (x axis) overall and by family. Do taxa with greater size dimorphism also show greater canine dimorphism?</li>
-</ol>
 </section>
-<section id="overall-relationship-between-canine-size-dimorphism-and-body-size-dimorphism" class="level3">
-<h3 class="anchored" data-anchor-id="overall-relationship-between-canine-size-dimorphism-and-body-size-dimorphism">Overall Relationship between Canine Size Dimorphism and Body Size Dimorphism</h3>
+<section id="family-relationship-between-day-range-length-and-group-size" class="level3">
+<h3 class="anchored" data-anchor-id="family-relationship-between-day-range-length-and-group-size">Family Relationship between day range length and group size</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(BSD), <span class="at">y =</span> <span class="fu">log</span>(Canine_Dimorphism), <span class="at">color =</span> <span class="fu">factor</span>(Family))) <span class="co">#plot with points colored by family</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#modify axis labels</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Body Size Dimorphism"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Canine Size Dimorphism"</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#create scatterplot</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#modify legend</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#linear regression by family, noted out not really useful</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#p &lt;- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># and, finally, we plot the object</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>p </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Family, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -320,13 +339,24 @@ Defensibility Index (DI) = day range length/diameter of home range
 </div>
 </div>
 </div>
-</section>
-<section id="family-relationship-between-canine-size-dimorphism-and-body-size-dimorphism" class="level3">
-<h3 class="anchored" data-anchor-id="family-relationship-between-canine-size-dimorphism-and-body-size-dimorphism">Family Relationship between Canine Size Dimorphism and Body Size Dimorphism</h3>
+<ol start="6" type="1">
+<li>Plot the relationship between canine size dimorphism (y axis) and body size dimorphism (x axis) overall and by family. Do taxa with greater size dimorphism also show greater canine dimorphism? Again there is a positive correlation between canine size and bsd, it does seem that those with greater body size dimorphism (specifically Cercopithecidae) also show greater canine size dimorphism ### Overall Relationship between Canine Size Dimorphism and Body Size Dimorphism</li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Family, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> d, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(BSD), <span class="at">y =</span> <span class="fu">log</span>(Canine_Dimorphism), <span class="at">color =</span> <span class="fu">factor</span>(Family))) <span class="co">#plot with points colored by family</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#modify axis labels</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">"Body Size Dimorphism"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">"Canine Size Dimorphism"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#create scatterplot</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#modify legend</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">#linear regression by family, noted out not really useful</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">#p &lt;- p + geom_smooth(method = "lm", fullrange = FALSE, na.rm = TRUE)</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># and, finally, we plot the object</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>p </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -335,20 +365,33 @@ Defensibility Index (DI) = day range length/diameter of home range
 </div>
 </div>
 </div>
+</section>
+<section id="family-relationship-between-canine-size-dimorphism-and-body-size-dimorphism" class="level3">
+<h3 class="anchored" data-anchor-id="family-relationship-between-canine-size-dimorphism-and-body-size-dimorphism">Family Relationship between Canine Size Dimorphism and Body Size Dimorphism</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>Family, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="EDAchallenge_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <ol start="7" type="1">
 <li>Create a new variable named diet_strategy that is “frugivore” if fruits make up &gt;50% of the diet, “folivore” if leaves make up &gt;50% of the diet, and “omnivore” if diet data are available, but neither of these is true (i.e., these values are not NA). Then, do boxplots of group size for species with different dietary strategies, omitting the category NA from your plot. Do frugivores live in larger groups than folivores?</li>
 </ol>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>?mutate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(d, <span class="at">diet_strategy =</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(Fruit <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"frugivore"</span>), </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(Leaves <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"folivore"</span>), </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(<span class="fu">Fruit</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&amp;</span> <span class="fu">Leaves</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>?mutate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(d, <span class="at">diet_strategy =</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(Fruit <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"frugivore"</span>), </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(Leaves <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"folivore"</span>), </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(<span class="fu">Fruit</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&amp;</span> <span class="fu">Leaves</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(d, <span class="at">diet_strategy =</span> <span class="fu">ifelse</span>(Fruit <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"frugivore"</span>,</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">ifelse</span>(Leaves <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"folivore"</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Fruit) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Leaves), <span class="st">"omnivore"</span>, <span class="cn">NA</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(d, <span class="at">diet_strategy =</span> <span class="fu">ifelse</span>(Fruit <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"frugivore"</span>,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">ifelse</span>(Leaves <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"folivore"</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Fruit) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(Leaves), <span class="st">"omnivore"</span>, <span class="cn">NA</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 213 × 28
    Scientific_Name             Family       Genus Species Brain_Size_Species_M…¹
@@ -373,13 +416,16 @@ Defensibility Index (DI) = day range length/diameter of home range
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">mutate</span>(d, <span class="at">diet_strategy =</span> <span class="fu">ifelse</span>(Fruit <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"frugivore"</span>,</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">ifelse</span>(Leaves <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"folivore"</span>,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">ifelse</span>(Fruit <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> Leaves <span class="sc">&lt;</span> <span class="dv">50</span>, <span class="st">"omnivore"</span>, <span class="cn">NA</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">mutate</span>(d, <span class="at">diet_strategy =</span> <span class="fu">ifelse</span>(Fruit <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"frugivore"</span>,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">ifelse</span>(Leaves <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"folivore"</span>,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">ifelse</span>(Fruit <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> Leaves <span class="sc">&lt;</span> <span class="dv">50</span>, <span class="st">"omnivore"</span>, <span class="cn">NA</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>BOXPLOTS OF GROUP SIZE FOR SPECIES WITH DIFFERENT DEITARY STARTEGIES (FRUGIVORE, OMNIVORE, FOLIVORE), DO NOT INCLUDE NA = X, Y = GROUP SIZE</p>
+</section>
+</section>
+<section id="group-size-for-different-dietary-strategies" class="level2">
+<h2 class="anchored" data-anchor-id="group-size-for-different-dietary-strategies">Group Size for different dietary strategies</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">log</span>(d<span class="sc">$</span>MeanGroupSize) <span class="sc">~</span>d<span class="sc">$</span>diet_strategy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">log</span>(d<span class="sc">$</span>MeanGroupSize) <span class="sc">~</span>d<span class="sc">$</span>diet_strategy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -388,7 +434,74 @@ Defensibility Index (DI) = day range length/diameter of home range
 </div>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>d</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 213 × 28
+   Scientific_Name             Family       Genus Species Brain_Size_Species_M…¹
+   &lt;chr&gt;                       &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Allenopithecus_nigroviridis Cercopithec… Alle… nigrov…                   58.0
+ 2 Allocebus_trichotis         Cercopithec… Allo… tricho…                   NA  
+ 3 Alouatta_belzebul           Atelidae     Alou… belzeb…                   52.8
+ 4 Alouatta_caraya             Atelidae     Alou… caraya                    52.6
+ 5 Alouatta_guariba            Atelidae     Alou… guariba                   51.7
+ 6 Alouatta_palliata           Atelidae     Alou… pallia…                   49.9
+ 7 Alouatta_pigra              Atelidae     Alou… pigra                     51.1
+ 8 Alouatta_seniculus          Atelidae     Alou… senicu…                   55.2
+ 9 Aotus_azarai                Cebidae      Aotus azarai                    20.7
+10 Aotus_brumbacki             Cebidae      Aotus brumba…                   NA  
+# ℹ 203 more rows
+# ℹ abbreviated name: ¹​Brain_Size_Species_Mean
+# ℹ 23 more variables: Body_mass_male_mean &lt;dbl&gt;, Body_mass_female_mean &lt;dbl&gt;,
+#   MeanGroupSize &lt;dbl&gt;, AdultMales &lt;dbl&gt;, AdultFemale &lt;dbl&gt;,
+#   GR_MidRangeLat_dd &lt;dbl&gt;, Precip_Mean_mm &lt;dbl&gt;, Temp_Mean_degC &lt;dbl&gt;,
+#   HomeRange_km2 &lt;dbl&gt;, DayLength_km &lt;dbl&gt;, Fruit &lt;dbl&gt;, Leaves &lt;chr&gt;,
+#   Fauna &lt;chr&gt;, Canine_Dimorphism &lt;dbl&gt;, Feed &lt;dbl&gt;, Move &lt;dbl&gt;, Rest &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<ol start="8" type="1">
+<li>In one line of code, using {dplyr} verbs and the forward pipe (|&gt; or %&gt;%) operator, do the following:</li>
+</ol>
+<ul>
+<li>Add a variable, Binomial to the data frame d, which is a concatenation of the Genus and Species variables…</li>
+<li>Trim the data frame to only include the variables Binomial, Family, Brain_size_species_mean, and Body_mass_male_mean…</li>
+<li>Group these variables by Family…</li>
+<li>Calculate the average value for Brain_Size_Species_Mean and Body_mass_male_mean per Family (remember, you may need to specify na.rm = TRUE)…</li>
+<li>Arrange by increasing average brain size… And print the output to the console</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Binomial =</span> <span class="fu">paste</span>(Genus, Species, <span class="at">sep =</span> <span class="st">" "</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Binomial, Family, Brain_Size_Species_Mean, Body_mass_male_mean) <span class="sc">|&gt;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Family) <span class="sc">|&gt;</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avgBS =</span> <span class="fu">mean</span>(Brain_Size_Species_Mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">avgMM =</span> <span class="fu">mean</span>(Body_mass_male_mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(avgBS)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(s)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 3
+   Family           avgBS  avgMM
+   &lt;chr&gt;            &lt;dbl&gt;  &lt;dbl&gt;
+ 1 Tarsiidae         3.26   131 
+ 2 Cheirogalidae     4.04   193.
+ 3 Galagidae         5.96   395.
+ 4 Lepilemuridae     7.27   792 
+ 5 Lorisidae         8.67   512.
+ 6 Lemuridae        23.1   2077.
+ 7 Cebidae          23.9   1012.
+ 8 Indriidae        27.3   3638.
+ 9 Daubentonidae    44.8   2620 
+10 Pitheciidae      56.3   1955.
+11 Atelidae         80.6   7895.
+12 Cercopithecidae  85.4   9543.
+13 Hylobatidae     101.    6926.
+14 Hominidae       410.   98681.</code></pre>
+</div>
+</div>
 </section>
+<section id="step-2---quarto-to-pdf" class="level2">
+<h2 class="anchored" data-anchor-id="step-2---quarto-to-pdf">Step 2 - quarto to pdf</h2>
+<p>No I was not ambitious enough, I was scared I would ruin it all D:</p>
 </section>
 
 </main>
